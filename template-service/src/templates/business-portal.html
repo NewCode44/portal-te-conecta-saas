@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - Acceso Empresarial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            min-height: 100vh;
+            display: flex;
+        }
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+        }
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff08" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        }
+        .brand {
+            z-index: 1;
+            text-align: center;
+        }
+        .brand-logo {
+            width: 100px;
+            height: 100px;
+            background: #e94560;
+            border-radius: 20px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        .brand h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #e94560, #f27121);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .brand p {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+        .right-panel {
+            flex: 1;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .login-form {
+            width: 100%;
+            max-width: 400px;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .form-header h2 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        .form-header p {
+            color: #666;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+        input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #e94560;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.2);
+        }
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #e94560, #f27121);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .social-login {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .social-btn {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            margin: 0 0.5rem;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        .social-btn:hover {
+            transform: scale(1.1);
+        }
+        .google { background: #db4437; }
+        .facebook { background: #3b5998; }
+        .apple { background: #000; }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .left-panel {
+                min-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="left-panel">
+        <div class="brand">
+            <div class="brand-logo">🏢</div>
+            <h1>{{company_name}}</h1>
+            <p>Acceso empresarial seguro</p>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="login-form">
+            <div class="form-header">
+                <h2>Bienvenido</h2>
+                <p>Accede a nuestra red empresarial</p>
+            </div>
+
+            <form action="{{login_url}}" method="POST">
+                <div class="form-group">
+                    <label for="company">Empresa</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Nombre completo</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email corporativo</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="position">Cargo</label>
+                    <input type="text" id="position" name="position">
+                </div>
+
+                <button type="submit" class="btn">Acceder a la Red</button>
+            </form>
+
+            <div class="social-login">
+                <p style="color: #666; margin-bottom: 1rem;">O accede con:</p>
+                <a href="#" class="social-btn google">G</a>
+                <a href="#" class="social-btn facebook">f</a>
+                <a href="#" class="social-btn apple">🍎</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

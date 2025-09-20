@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenatech - Dashboard de Plantillas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2196F3;
+        }
+        .logo-icon {
+            margin-right: 0.5rem;
+            font-size: 2rem;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #2196F3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .stats-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .stats-card h3 {
+            color: #2196F3;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+        .stat-label {
+            color: #666;
+        }
+        .stat-value {
+            font-weight: bold;
+            color: #2196F3;
+            font-size: 1.1rem;
+        }
+        .quick-actions {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .quick-actions h3 {
+            color: #2196F3;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .action-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+        }
+        .action-btn:last-child {
+            margin-bottom: 0;
+        }
+        .templates-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .section-header h2 {
+            color: #2196F3;
+            font-size: 1.5rem;
+        }
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: #f5f5f5;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .filter-tab.active {
+            background: #2196F3;
+            color: white;
+        }
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .template-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-color: #2196F3;
+        }
+        .template-preview {
+            height: 200px;
+            background: linear-gradient(45deg, #f0f8ff, #e3f2fd);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #2196F3;
+            position: relative;
+            overflow: hidden;
+        }
+        .template-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23e3f2fd" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        }
+        .template-preview span {
+            position: relative;
+            z-index: 1;
+        }
+        .template-info {
+            padding: 1.5rem;
+        }
+        .template-info h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .template-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        .template-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn-preview {
+            flex: 1;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            color: #2196F3;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .btn-preview:hover {
+            background: #2196F3;
+            color: white;
+        }
+        .btn-use {
+            flex: 1;
+            padding: 0.5rem;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .btn-use:hover {
+            background: #1976D2;
+        }
+        .category-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(33, 150, 243, 0.9);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .filter-tabs {
+                flex-wrap: wrap;
+            }
+        }
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #2196F3;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 0.5rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🎓</span>
+                Entrenatech
+            </div>
+            <div class="user-info">
+                <span>Dashboard de Plantillas</span>
+                <div class="user-avatar">A</div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Dashboard de Entrenatech</h1>
+            <p>Gestiona y personaliza tus plantillas de portal cautivo</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="stats-card">
+                <h3>📊 Estadísticas</h3>
+                <div class="stat-item">
+                    <span class="stat-label">Plantillas Disponibles</span>
+                    <span class="stat-value" id="totalTemplates">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Plantillas Activas</span>
+                    <span class="stat-value">2</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Usuarios Conectados Hoy</span>
+                    <span class="stat-value">1,247</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Conversión de Registro</span>
+                    <span class="stat-value">89%</span>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h3>⚡ Acciones Rápidas</h3>
+                <button class="action-btn" onclick="createNewTemplate()">
+                    ➕ Crear Nueva Plantilla
+                </button>
+                <button class="action-btn" onclick="viewAnalytics()">
+                    📈 Ver Analíticas
+                </button>
+                <button class="action-btn" onclick="manageUsers()">
+                    👥 Gestionar Usuarios
+                </button>
+                <button class="action-btn" onclick="exportData()">
+                    📊 Exportar Datos
+                </button>
+            </div>
+        </div>
+
+        <div class="templates-section">
+            <div class="section-header">
+                <h2>🎨 Plantillas de Entrenatech</h2>
+                <div class="filter-tabs">
+                    <a href="#" class="filter-tab active" onclick="filterTemplates('all')">Todas</a>
+                    <a href="#" class="filter-tab" onclick="filterTemplates('education')">Educativas</a>
+                    <a href="#" class="filter-tab" onclick="filterTemplates('basic')">Básicas</a>
+                    <a href="#" class="filter-tab" onclick="filterTemplates('hotspot')">Hotspot</a>
+                    <a href="#" class="filter-tab" onclick="filterTemplates('premium')">Premium</a>
+                </div>
+            </div>
+
+            <div class="templates-grid" id="templatesGrid">
+                <div class="loading">Cargando plantillas...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let templates = [];
+        let currentFilter = 'all';
+
+        async function loadTemplates() {
+            try {
+                const response = await fetch('http://localhost:3005/api/services/entrenatech/templates');
+                const data = await response.json();
+
+                if (data.success) {
+                    templates = data.data;
+                    document.getElementById('totalTemplates').textContent = data.total;
+                    renderTemplates();
+                } else {
+                    document.getElementById('templatesGrid').innerHTML =
+                        '<div style="text-align: center; color: #f44336;">Error al cargar plantillas</div>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('templatesGrid').innerHTML =
+                    '<div style="text-align: center; color: #f44336;">Error de conexión</div>';
+            }
+        }
+
+        function renderTemplates() {
+            const grid = document.getElementById('templatesGrid');
+            let filteredTemplates = templates;
+
+            if (currentFilter !== 'all') {
+                filteredTemplates = templates.filter(t => t.category === currentFilter);
+            }
+
+            if (filteredTemplates.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; color: #666;">No hay plantillas para este filtro</div>';
+                return;
+            }
+
+            const categoryIcons = {
+                basic: '🏠',
+                business: '🏢',
+                hotspot: '📶',
+                education: '🎓',
+                premium: '💎'
+            };
+
+            grid.innerHTML = filteredTemplates.map(template => `
+                <div class="template-card">
+                    <div class="template-preview">
+                        <span>${categoryIcons[template.category] || '🎨'}</span>
+                        <div class="category-badge">${template.category}</div>
+                    </div>
+                    <div class="template-info">
+                        <h3>${template.name}</h3>
+                        <p>${template.description}</p>
+                        <div class="template-actions">
+                            <a href="http://localhost:3005/api/templates/${template.id}/preview?company_name=Entrenatech&title=Demo"
+                               target="_blank" class="btn-preview">👁️ Vista Previa</a>
+                            <button class="btn-use" onclick="useTemplate('${template.id}')">
+                                🚀 Usar Plantilla
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterTemplates(category) {
+            currentFilter = category;
+
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            renderTemplates();
+        }
+
+        function useTemplate(templateId) {
+            const template = templates.find(t => t.id === templateId);
+            if (template) {
+                const config = prompt(`Configurar "${template.name}":\\n\\nNombre de empresa:`, 'Mi Empresa Entrenatech');
+                if (config) {
+                    const previewUrl = `http://localhost:3005/api/templates/${templateId}/preview?company_name=${encodeURIComponent(config)}&title=Portal WiFi`;
+                    window.open(previewUrl, '_blank');
+                    alert(`✅ Plantilla "${template.name}" configurada para "${config}"`);
+                }
+            }
+        }
+
+        function createNewTemplate() {
+            alert('🚧 Función en desarrollo: Crear nueva plantilla');
+        }
+
+        function viewAnalytics() {
+            alert('📈 Función en desarrollo: Ver analíticas detalladas');
+        }
+
+        function manageUsers() {
+            alert('👥 Función en desarrollo: Gestión de usuarios');
+        }
+
+        function exportData() {
+            alert('📊 Función en desarrollo: Exportar datos');
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTemplates();
+        });
+    </script>
+</body>
+</html>

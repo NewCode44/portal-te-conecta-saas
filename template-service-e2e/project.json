@@ -1,0 +1,17 @@
+{
+  "name": "template-service-e2e",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": ["template-service"],
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "template-service-e2e/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["template-service:build", "template-service:serve"]
+    }
+  }
+}

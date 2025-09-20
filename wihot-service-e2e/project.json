@@ -1,0 +1,17 @@
+{
+  "name": "wihot-service-e2e",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": ["wihot-service"],
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "wihot-service-e2e/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["wihot-service:build", "wihot-service:serve"]
+    }
+  }
+}
